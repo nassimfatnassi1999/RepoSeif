@@ -1,19 +1,22 @@
 from django.contrib.auth.backends import BaseBackend
-from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from .models import RH, Encadrant, user
 
 class CustomAuthBackend(BaseBackend):
-    def authenticate(self, request, username=None, password=None, encadrant=False, stagiaire=False):
-        try:
-            if encadrant:
-                user_model = Encadrant
-            elif stagiaire:
-                user_model = user
-            else:
-                user_model = RH  # Utilisez le modèle RH par défaut, vous pouvez ajouter de la logique pour gérer d'autres modèles ici
+    def authenticate(self, request, username=None, password=None, encadrant=False, stagiaire=False, rh=False):
+        user_model = None
 
-            user = user_model.objects.get(email=username)
-            if user.check_password(password):
-                return user
-        except (user_model.DoesNotExist, user_model.MultipleObjectsReturned):
-            return None
+        if encadrant:
+            user_model = Encadrant
+        elif stagiaire:
+            user_model = user
+        elif rh:
+            user_model = RH
+
+        if user_model:
+            try:
+                user_instance = user_model.objects.get(email=username)
+                if user_instance.check_password(password):
+                    return user_instance
+            except ObjectDoesNotExist:
+                return None

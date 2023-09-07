@@ -100,7 +100,13 @@ def login_view(request):
             user = authenticate(request, username=email, password=password, encadrant=encadrant, stagiaire=stagiaire)
             if user is not None:
                 login(request, user)
-                return redirect('add_show')  # Redirigez vers la page appropriée après une connexion réussie
+                if request.user.is_authenticated:
+                    if stagiaire:
+                        return redirect('add_show')
+                    elif encadrant:
+                        return redirect('encadrants')
+                    else:
+                        return redirect('liste-rh')
             else:
                 error_message = "Nom d'utilisateur ou mot de passe incorrect."
 
