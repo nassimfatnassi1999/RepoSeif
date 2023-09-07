@@ -1,0 +1,96 @@
+{% extends "myweb/base.html" %}
+
+{% block content %}
+<style>
+    /* Styles personnalisés */
+    h1 {
+        color: #333; /* Couleur du texte pour le titre h1 */
+        
+        text-align: center; /* Aligner le texte au centre horizontalement */
+    
+    }
+
+    
+
+    h2 {
+        color: #555; /* Couleur du texte pour les titres h2 */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff; /* Couleur de fond de la table */
+        border: 1px solid #ddd; /* Bordure autour de la table */
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd; /* Bordure basse pour les cellules du tableau */
+    }
+
+    tbody tr:hover {
+        background-color: #f5f5f5; /* Couleur de fond au survol des lignes du tableau */
+    }
+
+    label {
+        display: block;
+    }
+
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    button {
+        background-color: #007BFF; /* Couleur de fond du bouton */
+        color: #fff; /* Couleur du texte du bouton */
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .alert-danger {
+        background-color: #FF6B6B; /* Couleur de fond pour l'alerte danger */
+        color: #fff; /* Couleur du texte pour l'alerte danger */
+        padding: 10px;
+        margin-top: 10px;
+    }
+</style>
+
+<h1>Évaluation des Stagiaires</h1>
+
+<h2>Encadrant: {{ encadrant.nom }} {{ encadrant.prenom }}</h2>
+<h2>Stagiaire: {{ stagiaire.nom }} {{ stagiaire.prenom }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Critère</th>
+                <th>Niveau de Performance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for critere in criteres %}
+                <tr>
+                    <td>{{ critere }}</td>
+                    <td>
+                        {% for niveau in niveaux %}
+                            <label>
+                                <input type="radio" name="{{ critere }}" value="{{ niveau.0 }}">
+                                {{ niveau.0 }}
+                            </label>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" name="action" value="calculer_score">Calculer Score</button>
+</form>
+{% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+{% endblock content %}

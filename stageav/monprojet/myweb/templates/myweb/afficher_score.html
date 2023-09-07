@@ -1,0 +1,14 @@
+{% extends "myweb/base.html" %}
+
+{% block content %}
+<h1>Affichage du Score du Stagiaire</h1>
+<h2>Stagiaire: {{ stagiaire.nom }} {{ stagiaire.prenom }}</h2>
+
+{% if scores %}
+    <h3>Dernier Score: {{ scores.last.score }}</h3>
+{% else %}
+    <p>Aucun score disponible pour ce stagiaire.</p>
+{% endif %}
+
+<a href="{% url 'valider_stagiaire' stagiaire.encadrant.id stagiaire.id %}" class="btn btn-primary">Retour</a>
+{% endblock content %}

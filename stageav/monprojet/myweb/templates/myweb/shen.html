@@ -1,0 +1,57 @@
+{%extends "myweb/base.html"  %}
+
+{%block content %}
+
+        <div class="col-sm-8">
+            <h4 class="text-center alert alert-info">Afficher les informations pour les encadrants</h4>
+            {% if encadrants %}
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">Departement</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for e in encadrants  %}
+                    <tr>
+                        <th scope="row">{{ e.id }}</th>
+                        <td>{{ e.nom }}</td>
+                        <td>{{ e.prenom }}</td>
+                        <td>{{ e.email }}</td>
+                        <td>{{ e.telephone }}</td>
+                        <td>{{ e.departement }}</td>
+                        <td>
+                            <a href="{% url 'update_encadrant'  e.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                            <form action="{% url 'delete_encadrant' e.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger btn-sm" value="Supprimer">
+                            </form>
+                        </td>
+                    </tr>
+                    
+                     {% endfor %}
+                </tbody>
+              </table>
+                 {% else %}
+                <h4 class="text-center alert alert-warning">Pas d'enregistrement</h4>
+            {% endif %}
+        </div>
+        
+
+    
+
+
+
+    
+    <ul id="intern-list">
+        <a href="{% url 'add_encadrant' %}" class="btn btn-info">ajouter un encadrant</a>
+    </ul>
+    
+</div>
+{% endblock content %}

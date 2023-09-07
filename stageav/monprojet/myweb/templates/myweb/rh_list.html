@@ -1,0 +1,53 @@
+{% extends "myweb/base.html" %}
+
+{% block content %}
+    <h1>Liste des membres RH</h1>
+    <form method="GET">
+        <div class="form-group">
+            <label for="search">Recherche :</label>
+            <input type="text" class="form-control" name="search" id="search" value="{{ search_term }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Département</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rh in rh_objects %}
+                    <tr>
+                        <th scope="row">{{ rh.id }}</th>
+                        <td>{{ rh.nom }}</td>
+                        <td>{{ rh.prenom }}</td>
+                        <td>{{ rh.email }}</td>
+                        <td>{{ rh.departement }}</td>
+                        <td>{{ rh.telephone }}</td>
+                        <td>
+                            <a href="{% url 'update_rh' rh.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                            <form action="{% url 'delete_rh' rh.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger btn-sm" value="Supprimer">
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">Aucun membre RH trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'ajouter_rh' %}" class="btn btn-info">Ajouter</a>
+{% endblock %}

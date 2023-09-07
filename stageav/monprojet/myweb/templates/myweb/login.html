@@ -1,0 +1,24 @@
+{% extends 'myweb/base.html' %}
+
+{% block content %}
+  <h2>Connexion encadrant et stagiaire</h2>
+  {% if error_message %}
+    <p>{{ error_message }}</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.email.label_tag }}
+    {{ form.email }}
+    {{ form.password.label_tag }}
+    {{ form.password }}
+    <div class="form-check">
+      {{ form.encadrant }}
+      <label class="form-check-label" for="{{ form.encadrant.id_for_label }}">Je suis un Encadrant</label>
+    </div>
+    <div class="form-check">
+      {{ form.stagiaire }}
+      <label class="form-check-label" for="{{ form.stagiaire.id_for_label }}">Je suis un Stagiaire</label>
+    </div>
+    <button type="submit">Se connecter</button>
+  </form>
+{% endblock %}

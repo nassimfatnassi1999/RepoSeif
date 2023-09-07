@@ -1,0 +1,50 @@
+{% extends "myweb/base.html" %}
+
+{% block content %}
+<h1>Évaluation des Encadrants et Stagiaires</h1>
+
+{% for encadrant in encadrants %}
+    <h2>Encadrant: {{ encadrant.nom }} {{ encadrant.prenom }}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nom Stagiaire</th>
+                <th>Date de Début</th>
+                <th>Durée</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stagiaire in encadrant.stagiaires_encadres.all %}
+                <tr>
+                    <td>{{ stagiaire.nom }} {{ stagiaire.prenom }}</td>
+                    <td>{{ stagiaire.date }}</td>
+                    <td>{{ stagiaire.duree }}</td>
+                    <td>
+                        <a href="{% url 'valider_stagiaire' encadrant.id stagiaire.id %}" class="btn btn-success">Valider</a>
+                        
+                        <a href="{% url 'afficher_score' encadrant.id stagiaire.id %}" class="btn btn-primary">Afficher le Score</a>
+                        
+                    </td>
+                </tr>
+                {% if stagiaire.valide %}
+                    <tr>
+                        <td colspan="4">
+                            <h3>Stagiaire Validé</h3>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+
+
+<style>
+    /* Styles personnalisés */
+    h1 {
+        text-align: center; /* Aligner le texte au centre horizontalement */
+        color: #333; /* Couleur du texte pour le titre h1 */
+    }
+</style>
+{% endblock content %}

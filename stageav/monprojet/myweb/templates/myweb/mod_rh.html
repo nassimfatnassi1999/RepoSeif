@@ -1,0 +1,36 @@
+{% extends 'myweb/base.html' %}
+
+{% block content %}
+<style>
+    /* Styles personnalisés */
+    h2 {
+        color: #333; /* Couleur du texte pour le titre h2 */
+    }
+
+    form {
+        margin-top: 20px; /* Espacement en haut du formulaire */
+        max-width: 400px; /* Largeur maximale du formulaire */
+        padding: 20px;
+        background-color: #f5f5f5; /* Couleur de fond du formulaire */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button[type="submit"] {
+        background-color: #007BFF; /* Couleur de fond du bouton */
+        color: #fff; /* Couleur du texte du bouton */
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    /* Personnalisez d'autres styles selon vos besoins */
+</style>
+
+<h2>Modifier les informations du RH</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ rh_form.as_p }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+{% endblock content %}

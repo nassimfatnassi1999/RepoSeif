@@ -1,0 +1,53 @@
+{% extends "myweb/base.html" %}
+
+{% block content %}
+<style>
+    /* Styles personnalisés */
+    h2 {
+        color: #333; /* Couleur du texte pour le titre h2 */
+    }
+
+    .col-sm-8 {
+        margin-top: 20px; /* Espacement en haut de la section */
+        background-color: #f5f5f5; /* Couleur de fond de la section */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    form {
+        margin-top: 20px; /* Espacement en haut du formulaire */
+    }
+
+    input[type="text"], input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #007BFF; /* Couleur de fond du bouton */
+        color: #fff; /* Couleur du texte du bouton */
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .btn-info {
+        margin-top: 10px; /* Espacement en haut du bouton "précédent" */
+    }
+</style>
+
+<h2>ajouter un encadrant</h2>
+
+<div class="col-sm-8 offset-2">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{ encadrant_form.as_p }}
+      <input type="submit" class="btn btn-success" value="Ajouter">
+    </form>
+</div>
+<a href="{% url 'encadrants' %}" class="btn btn-info">précédent</a>
+{% endblock content %}
